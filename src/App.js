@@ -5,7 +5,7 @@ import FloatingChatWidget from "./chatBot";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  
+  const [messages, setMessages] = useState([]);
   return (
     <div className="App">
       <div className="relative z-50">
@@ -19,7 +19,10 @@ function App() {
 
       {/* Chatbox Container */}
       {isOpen && (
-        <FloatingChatWidget onClose={() => setIsOpen(false)} />
+        <FloatingChatWidget 
+          onClose={() => setIsOpen(false)}
+          messages={messages}
+          setMessages={setMessages} />
       )}
       </div>
     </div>

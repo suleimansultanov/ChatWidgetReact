@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
-export default function FloatingChatWidget({ onClose }) {
-  const [messages, setMessages] = useState([]);
+export default function FloatingChatWidget({ onClose, messages, setMessages}) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const endOfMessagesRef = useRef(null); // 👈 Реф для автоскролла
 
   const sendMessage = async () => {
     if (!input.trim()) return;
     const userMsg = input;
-    setMessages([...messages, { sender: "user", text: userMsg }]);
+    setMessages(prev => [...prev, { sender: "user", text: userMsg }]);
     setInput("");
     setLoading(true);
 
     try {
-      const res = await fetch("https://4a4a-2a00-1f-9482-3001-aced-6c92-f9c2-75a2.ngrok-free.app/chat", {
+      const res = await fetch("https://0b35-2a00-1f-9482-3001-aced-6c92-f9c2-75a2.ngrok-free.app/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ input: userMsg, history: messages })
@@ -26,6 +26,11 @@ export default function FloatingChatWidget({ onClose }) {
       setLoading(false);
     }
   };
+
+  // 👇 Скролл вниз после каждого обновления сообщений
+  useEffect(() => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   return (
     <div className="fixed bottom-5 right-5 w-[360px] rounded-3xl shadow-2xl overflow-hidden font-sans z-50">
@@ -66,6 +71,7 @@ export default function FloatingChatWidget({ onClose }) {
           </div>
         ))}
         {loading && <div className="text-gray-400">✍️ Печатает...</div>}
+        <div ref={endOfMessagesRef} /> {/* 👈 Скролл-маркер */}
       </div>
 
       {/* Input Section */}
