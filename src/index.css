@@ -15,3 +15,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.text-small{
+  font-size: 0.775rem;
+}
+
+.margin-bottom4{
+  margin-bottom: 4px;;
+}
+
+
+.widgetButton{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+.logorounded{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
